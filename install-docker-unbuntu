@@ -55,5 +55,5 @@ Docker engine is compatible with x86_64 (or amd64), armhf, arm64, and s390x arch
       sudo systemctl enable docker.service
       sudo systemctl enable containerd.service
 
-   # Now verify that the Docker Engine installation is successful by running the "hello-world image"
+   # Now verify that the Docker Engine installation is successful by running the "hello-world" image.
       sudo docker run hello world
