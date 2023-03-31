@@ -1,0 +1,59 @@
+# To install docker engine on ubuntu, you need 64-bit version of one of the following Ubuntu versions:
+OS Prerequisite:
+
+   Ubuntu Kinetics 22.10
+   Ubuntu Jammy 22.04 (LTS)
+   Ubuntu Focal 20.04 (LTS)
+   Ubuntu Bionic 18.04 (LTS)
+Docker engine is compatible with x86_64 (or amd64), armhf, arm64, and s390x architectures
+
+1-Uninstall old versions
+  sudo apt-get remove docker docker-engine docker.io containerd runc
+  
+  Note: apt-get may report that you do not have these packages installed.
+  Also, images, containers, volumes, and networks stored in /var/lib/docker/ aren’t automatically 
+  removed when you uninstall Docker. If you want to start with a clean installation, 
+  and prefer to clean up any existing data, run the following commands:
+  # Uninstall docker engine, cli, containerd, and docker compose packages:
+    sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+
+  # To delete all images, comntainers, and volumes, run the followinh commands:
+    sudo rm -rf /var/lib/docker
+    sudo rm -rf /var/lib/containerd
+
+2-Install docker using repository:
+  # Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+    sudo apt-get update
+
+    sudo apt-get install ca-certificates curl gnupg
+
+  # Adding docker's official GPG key:
+    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  
+  # Setting up the repository:
+    echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+3-Installing docker engine:
+  # Update the apt package index:
+    sudo apt-get update
+
+  # If you recieve a GPG error after running apt-get update, run the following:
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    sudo apt-get update
+
+  # Installing docker engine, containerd, and docker-compose:
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Verify that the Docker Engine installation is successful by running:
+   # Checking status of docker daemon:
+      sudo systemctl status docker
+
+   # Configure docker to start on boot with systemd.
+   # On Debian and Ubuntu, the Docker service starts on boot by default. 
+   # To automatically start Docker and containerd on boot for other Linux distributions using systemd, run the following commands:
+      sudo systemctl enable docker.service
+      sudo systemctl enable containerd.service
+
+   # Now verify that the Docker Engine installation is successful by running the "hello-world image"
+      sudo docker run hello world
